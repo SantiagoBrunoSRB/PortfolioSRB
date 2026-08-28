@@ -1,8 +1,13 @@
 import { config, fields, collection, singleton } from '@keystatic/core';
 
 export default config({
-  storage: {
+  storage: process.env.NODE_ENV === 'production' ? {
+    kind: 'cloud',
+  } : {
     kind: 'local',
+  },
+  cloud: {
+    project: process.env.PUBLIC_KEYSTATIC_PROJECT || 'santiagobrunosrb/portfoliosrb',
   },
   collections: {
     projects_es: collection({
