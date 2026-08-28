@@ -1,0 +1,107 @@
+---
+interface Props {
+  lang: 'es' | 'en';
+}
+
+const { lang } = Astro.props;
+
+const sectionTexts = {
+  es: {
+    title: 'Stack & Metodología',
+    subtitle: 'Capacidad técnica de punta a punta, organizada por capas.',
+    groups: [
+      {
+        title: 'Frontend & Core',
+        desc: 'Interfaces interactivas, rendimiento óptimo y semántica estricta.',
+        items: ['Astro', 'TypeScript', 'Tailwind CSS', 'HTML5 Semántico', 'CSS3 Moderno'],
+      },
+      {
+        title: 'Backend & APIs',
+        desc: 'Lógica empresarial escalable, servicios robustos y tipado sólido.',
+        items: ['Python', 'C#', 'APIs RESTful', 'Node.js', 'Express'],
+      },
+      {
+        title: 'Automatización & Datos',
+        desc: 'Orquestación de flujos de trabajo de datos y pipelines eficientes.',
+        items: ['n8n', 'Airbyte', 'BigQuery', 'Bases de datos SQL', 'Webhooks'],
+      },
+      {
+        title: 'CMS & Integraciones',
+        desc: 'Arquitecturas custom desacopladas (headless) y hardening de seguridad.',
+        items: ['Keystatic', 'WordPress Custom', 'ACF', 'Hardening & WAF', 'Optimización WPO'],
+      },
+    ],
+  },
+  en: {
+    title: 'Stack & Methodology',
+    subtitle: 'End-to-end technical capabilities, organized by layers.',
+    groups: [
+      {
+        title: 'Frontend & Core',
+        desc: 'Interactive interfaces, optimal performance, and strict semantics.',
+        items: ['Astro', 'TypeScript', 'Tailwind CSS', 'Semantic HTML5', 'Modern CSS3'],
+      },
+      {
+        title: 'Backend & APIs',
+        desc: 'Scalable business logic, robust services, and strong typing.',
+        items: ['Python', 'C#', 'RESTful APIs', 'Node.js', 'Express'],
+      },
+      {
+        title: 'Automation & Data',
+        desc: 'Data workflow orchestration and efficient pipelines.',
+        items: ['n8n', 'Airbyte', 'BigQuery', 'SQL Databases', 'Webhooks'],
+      },
+      {
+        title: 'CMS & Integrations',
+        desc: 'Headless custom architectures and security hardening.',
+        items: ['Keystatic', 'Custom WordPress', 'ACF', 'Hardening & WAF', 'WPO Optimization'],
+      },
+    ],
+  },
+}[lang];
+---
+
+<section id="stack" class="py-16 border-b border-zinc-200 dark:border-zinc-900 scroll-mt-20">
+  <!-- Section Title -->
+  <div class="space-y-2 mb-12">
+    <h2 class="text-3xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100">
+      {sectionTexts.title}
+    </h2>
+    <p class="text-sm text-zinc-650 dark:text-zinc-400 max-w-lg">
+      {sectionTexts.subtitle}
+    </p>
+  </div>
+
+  <!-- Grid Layout -->
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    {sectionTexts.groups.map((group) => (
+      <div class="relative rounded-xl border border-zinc-200 dark:border-zinc-900 bg-white dark:bg-zinc-950 p-6 hover:border-zinc-300 dark:hover:border-zinc-800 transition-all duration-300 shadow-sm">
+        
+        <!-- Decoration light -->
+        <span class="absolute top-6 right-6 h-2 w-2 rounded-full bg-brand-cyan/40"></span>
+
+        <div class="space-y-4">
+          <!-- Group Title & Desc -->
+          <div class="space-y-1">
+            <h3 class="font-mono text-base font-semibold text-zinc-800 dark:text-zinc-200">
+              {group.title}
+            </h3>
+            <p class="text-xs text-zinc-500 dark:text-zinc-400 leading-relaxed max-w-xs">
+              {group.desc}
+            </p>
+          </div>
+
+          <!-- Items list -->
+          <div class="flex flex-wrap gap-2 pt-2">
+            {group.items.map((item) => (
+              <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-zinc-100 dark:bg-zinc-900 text-xs font-mono text-zinc-700 dark:text-zinc-300 border border-zinc-200 dark:border-zinc-850 hover:text-zinc-900 dark:hover:text-zinc-100 hover:border-zinc-300 dark:hover:border-zinc-700 transition-colors">
+                <span class="h-1 w-1 rounded-full bg-brand-emerald"></span>
+                {item}
+              </span>
+            ))}
+          </div>
+        </div>
+      </div>
+    ))}
+  </div>
+</section>

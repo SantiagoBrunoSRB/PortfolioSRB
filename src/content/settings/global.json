@@ -1,0 +1,15 @@
+{
+  "contactEmail": "santiagorafaelbrunosrb@gmail.com",
+  "socialLinks": {
+    "linkedIn": "https://www.linkedin.com/in/santiagorafaelbruno/",
+    "gitHub": "https://github.com/SantiagoBrunoSRB/"
+  },
+  "seoDefaultsEs": {
+    "title": "Santiago Rafael Bruno — Web & Software Developer",
+    "description": "Desarrollo soluciones web robustas, arquitecturas de datos y automatizaciones backend que conectan frontend ágil con lógica de negocio eficiente."
+  },
+  "seoDefaultsEn": {
+    "title": "Santiago Rafael Bruno — Web & Software Developer",
+    "description": "I build robust web solutions, data architectures, and backend automations connecting agile frontend with efficient business logic."
+  }
+}

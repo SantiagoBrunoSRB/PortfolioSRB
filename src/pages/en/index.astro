@@ -1,0 +1,43 @@
+---
+import { getCollection, getEntry } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Hero from '../../components/Hero.astro';
+import ProjectsSection from '../../components/ProjectsSection.astro';
+import StackSection from '../../components/StackSection.astro';
+import AboutSection from '../../components/AboutSection.astro';
+
+// Get home EN singleton data
+const homeEntry = await getEntry('home', 'en');
+if (!homeEntry) {
+  throw new Error('Home data in English was not found.');
+}
+
+// Get and filter English projects
+const allProjects = await getCollection('projects');
+const enProjects = allProjects
+  .filter((project) => project.id.startsWith('en/'))
+  .sort((a, b) => b.data.year - a.data.year);
+---
+
+<BaseLayout
+  title={`${homeEntry.data.heroTitle} — Web & Software Developer`}
+  description={homeEntry.data.heroSubtitle}
+  lang="en"
+>
+  <!-- Hero Section -->
+  <Hero
+    title={homeEntry.data.heroTitle}
+    subtitle={homeEntry.data.heroSubtitle}
+    badgeText={homeEntry.data.availabilityBadge}
+    lang="en"
+  />
+
+  <!-- Featured Projects -->
+  <ProjectsSection projects={enProjects} lang="en" />
+
+  <!-- Stack & Methodology -->
+  <StackSection lang="en" />
+
+  <!-- About Me -->
+  <AboutSection aboutText={homeEntry.data.aboutText} lang="en" />
+</BaseLayout>

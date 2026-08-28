@@ -1,0 +1,242 @@
+---
+import SEO from '../components/SEO.astro';
+import '../styles/global.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+  lang: 'es' | 'en';
+}
+
+const { title, description, lang } = Astro.props;
+
+// Helper para calcular la URL del idioma alternativo
+const getAltLanguageURL = (currentLang: 'es' | 'en') => {
+  const pathname = Astro.url.pathname;
+  if (currentLang === 'es') {
+    if (pathname.startsWith('/es')) {
+      return pathname.replace(/^\/es/, '/en');
+    }
+    return '/en' + (pathname === '/' ? '' : pathname);
+  } else {
+    if (pathname.startsWith('/en')) {
+      return pathname.replace(/^\/en/, '/es');
+    }
+    return '/es' + (pathname === '/' ? '' : pathname);
+  }
+};
+
+const altLangUrl = getAltLanguageURL(lang);
+
+// Textos de navegación localizados
+const navTexts = {
+  es: {
+    projects: 'Proyectos',
+    about: 'Sobre mí',
+    contact: 'Contacto',
+    copyEmail: 'Copiar email',
+    copied: '¡Copiado!',
+    langName: 'EN',
+  },
+  en: {
+    projects: 'Projects',
+    about: 'About me',
+    contact: 'Contact',
+    copyEmail: 'Copy email',
+    copied: 'Copied!',
+    langName: 'ES',
+  },
+}[lang];
+---
+
+<!DOCTYPE html>
+<html lang={lang} class="dark">
+  <head>
+    <SEO title={title} description={description} lang={lang} />
+    
+    <!-- Bloquear destello de tema alternativo (FART) -->
+    <script is:inline>
+      const getTheme = () => {
+        if (typeof localStorage !== 'undefined' && localStorage.getItem('theme')) {
+          return localStorage.getItem('theme');
+        }
+        return window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+      };
+      if (getTheme() === 'light') {
+        document.documentElement.classList.remove('dark');
+        document.documentElement.classList.add('light');
+      } else {
+        document.documentElement.classList.remove('light');
+        document.documentElement.classList.add('dark');
+      }
+    </script>
+  </head>
+  
+  <body class="flex flex-col min-h-screen bg-zinc-50 text-zinc-900 dark:bg-zinc-950 dark:text-zinc-100 transition-colors duration-300">
+    <!-- Skip to main content (Accesibilidad WCAG 2.2) -->
+    <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-brand-emerald focus:text-zinc-950 focus:rounded focus:font-mono focus:text-sm">
+      {lang === 'es' ? 'Saltar al contenido principal' : 'Skip to main content'}
+    </a>
+
+    <!-- Header Navigation -->
+    <header class="sticky top-0 z-40 border-b border-zinc-200 dark:border-zinc-900 bg-white/80 dark:bg-zinc-950/80 backdrop-blur-md transition-colors duration-300">
+      <div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
+        <div class="flex h-16 items-center justify-between">
+          <!-- Logo / Name -->
+          <a href={`/${lang}/`} class="group flex items-center gap-2 focus:outline-none">
+            <span class="h-2 w-2 rounded-full bg-brand-emerald animate-pulse"></span>
+            <span class="font-mono text-sm font-semibold tracking-tight text-zinc-900 dark:text-zinc-100 group-hover:text-brand-emerald transition-colors">
+              santiagobruno.dev
+            </span>
+          </a>
+
+          <!-- Nav Menu -->
+          <nav class="flex items-center gap-6">
+            <ul class="hidden sm:flex items-center gap-6 text-sm font-mono">
+              <li>
+                <a href={`/${lang}/#proyectos`} class="text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors py-2">
+                  {navTexts.projects}
+                </a>
+              </li>
+              <li>
+                <a href={`/${lang}/#sobre-mi`} class="text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors py-2">
+                  {navTexts.about}
+                </a>
+              </li>
+              <li>
+                <a href={`/${lang}/#contacto`} class="text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors py-2">
+                  {navTexts.contact}
+                </a>
+              </li>
+            </ul>
+
+            <div class="flex items-center gap-3 border-l border-zinc-200 dark:border-zinc-800 pl-4 sm:pl-6">
+              <!-- Selector de Idioma -->
+              <a 
+                href={altLangUrl}
+                aria-label={lang === 'es' ? 'Cambiar a inglés' : 'Switch to Spanish'}
+                class="flex h-9 w-9 items-center justify-center rounded-lg border border-zinc-200 dark:border-zinc-800 text-zinc-600 dark:text-zinc-400 hover:border-zinc-300 dark:hover:border-zinc-700 hover:text-zinc-900 dark:hover:text-zinc-100 font-mono text-xs transition-all"
+              >
+                {navTexts.langName}
+              </a>
+
+              <!-- Theme Toggle Button -->
+              <button
+                id="theme-toggle"
+                aria-label={lang === 'es' ? 'Alternar modo claro y oscuro' : 'Toggle dark and light mode'}
+                class="flex h-9 w-9 items-center justify-center rounded-lg border border-zinc-200 dark:border-zinc-800 text-zinc-600 dark:text-zinc-400 hover:border-zinc-300 dark:hover:border-zinc-700 hover:text-zinc-900 dark:hover:text-zinc-100 transition-all cursor-pointer"
+              >
+                <!-- Sun Icon (shows in Dark mode) -->
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-4 w-4 block dark:hidden">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2.25m0 13.5V21M9.75 12h-4.5m13.5 0h-4.5m-2.503-5.678-1.591-1.591M18.364 18.364l-1.591-1.591m-10.5-10.5 1.591 1.591m10.5 10.5 1.591 1.591M12 7.5a4.5 4.5 0 1 1 0 9 4.5 4.5 0 0 1 0-9Z" />
+                </svg>
+                <!-- Moon Icon (shows in Light mode) -->
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-4 w-4 hidden dark:block">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M21.752 15.002A9.72 9.72 0 0 1 18 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 0 0 3 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 0 0 9.002-5.998Z" />
+                </svg>
+              </button>
+            </div>
+          </nav>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main id="main-content" class="flex-grow mx-auto max-w-5xl w-full px-4 sm:px-6 lg:px-8 py-8 md:py-12 focus:outline-none">
+      <slot />
+    </main>
+
+    <!-- Footer -->
+    <footer id="contacto" class="border-t border-zinc-200 dark:border-zinc-900 bg-zinc-100/50 dark:bg-zinc-950/40 py-12 transition-colors duration-300">
+      <div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
+        <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+          <!-- Text Info -->
+          <div class="text-center md:text-left">
+            <p class="font-mono text-xs text-zinc-500">
+              // &copy; {new Date().getFullYear()} Santiago Rafael Bruno
+            </p>
+            <p class="text-xs text-zinc-600 dark:text-zinc-400 mt-1">
+              {lang === 'es' ? 'Desarrollado con Astro y Tailwind CSS v4' : 'Built with Astro and Tailwind CSS v4'}
+            </p>
+          </div>
+
+          <!-- Quick Copy Email & Socials -->
+          <div class="flex flex-col sm:flex-row items-center gap-4">
+            <button
+              id="copy-email-btn"
+              data-email="santiagorafaelbrunosrb@gmail.com"
+              class="group flex items-center gap-2 rounded-lg border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/30 px-4 py-2 text-xs font-mono text-zinc-600 dark:text-zinc-400 hover:border-zinc-300 dark:hover:border-zinc-700 hover:text-zinc-900 dark:hover:text-zinc-100 transition-all cursor-pointer"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-3.5 w-3.5 text-zinc-550 group-hover:text-brand-emerald transition-colors">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 7.5V6.108c0-1.135.845-2.098 1.976-2.192.373-.03.748-.057 1.123-.08M9.75 18.75h-2.25a2.25 2.25 0 0 1-2.25-2.25V7.5M12 18.75a2.25 2.25 0 0 0 2.25-2.25V9.75A2.25 2.25 0 0 0 12 7.5h-1.5a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25H12Z" />
+              </svg>
+              <span id="email-text">santiagorafaelbrunosrb@gmail.com</span>
+              <span id="copy-feedback" class="hidden text-brand-emerald font-semibold">{navTexts.copied}</span>
+            </button>
+
+            <!-- Social Links -->
+            <div class="flex items-center gap-2">
+              <a
+                href="https://github.com/SantiagoBrunoSRB/"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="GitHub"
+                class="flex h-9 w-9 items-center justify-center rounded-lg border border-zinc-200 dark:border-zinc-800 text-zinc-650 dark:text-zinc-400 hover:border-zinc-300 dark:hover:border-zinc-700 hover:text-zinc-900 dark:hover:text-zinc-100 hover:bg-zinc-100 dark:hover:bg-zinc-900/30 transition-all"
+              >
+                <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                  <path fill-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clip-rule="evenodd" />
+                </svg>
+              </a>
+              <a
+                href="https://www.linkedin.com/in/santiagorafaelbruno/"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="LinkedIn"
+                class="flex h-9 w-9 items-center justify-center rounded-lg border border-zinc-200 dark:border-zinc-800 text-zinc-650 dark:text-zinc-400 hover:border-zinc-300 dark:hover:border-zinc-700 hover:text-zinc-900 dark:hover:text-zinc-100 hover:bg-zinc-100 dark:hover:bg-zinc-900/30 transition-all"
+              >
+                <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                  <path fill-rule="evenodd" d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.779-1.75-1.75s.784-1.75 1.75-1.75 1.75.779 1.75 1.75-.784 1.75-1.75 1.75zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" clip-rule="evenodd" />
+                </svg>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+      // Tema Toggle Lógica
+      const handleToggleTheme = () => {
+        const doc = document.documentElement;
+        doc.classList.toggle('dark');
+        doc.classList.toggle('light');
+        const isLight = doc.classList.contains('light');
+        localStorage.setItem('theme', isLight ? 'light' : 'dark');
+      };
+      document.getElementById('theme-toggle')?.addEventListener('click', handleToggleTheme);
+
+      // Copiar Email Lógica
+      const copyBtn = document.getElementById('copy-email-btn');
+      const emailText = document.getElementById('email-text');
+      const copyFeedback = document.getElementById('copy-feedback');
+
+      copyBtn?.addEventListener('click', async () => {
+        const email = copyBtn.getAttribute('data-email') || '';
+        try {
+          await navigator.clipboard.writeText(email);
+          if (emailText && copyFeedback) {
+            emailText.classList.add('hidden');
+            copyFeedback.classList.remove('hidden');
+            setTimeout(() => {
+              copyFeedback.classList.add('hidden');
+              emailText.classList.remove('hidden');
+            }, 2000);
+          }
+        } catch (err) {
+          console.error('Failed to copy email: ', err);
+        }
+      });
+    </script>
+  </body>
+</html>

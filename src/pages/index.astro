@@ -1,0 +1,24 @@
+---
+// Redirección de idioma basada en cliente / por defecto a Español
+---
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="refresh" content="0;url=/es/" />
+    <title>Santiago Rafael Bruno</title>
+    <script is:inline>
+      const getLang = () => {
+        if (typeof localStorage !== 'undefined' && localStorage.getItem('lang')) {
+          return localStorage.getItem('lang');
+        }
+        const userLang = navigator.language || navigator.userLanguage;
+        return (userLang && userLang.toLowerCase().startsWith('en')) ? 'en' : 'es';
+      };
+      window.location.href = '/' + getLang() + '/';
+    </script>
+  </head>
+  <body>
+    <p>Redirigiendo... / Redirecting...</p>
+  </body>
+</html>

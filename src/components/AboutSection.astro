@@ -1,0 +1,83 @@
+---
+interface Props {
+  aboutText: string;
+  lang: 'es' | 'en';
+}
+
+const { aboutText, lang } = Astro.props;
+
+const sectionTexts = {
+  es: {
+    title: 'Sobre mí',
+    subtitle: 'El perfil técnico detrás de las soluciones.',
+    headingText: 'Quién soy',
+  },
+  en: {
+    title: 'About me',
+    subtitle: 'The technical background behind the solutions.',
+    headingText: 'Who I am',
+  },
+}[lang];
+---
+
+<section id="sobre-mi" class="py-16 border-b border-zinc-200 dark:border-zinc-900 scroll-mt-20">
+  <div class="space-y-2 mb-12">
+    <h2 class="text-3xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100">
+      {sectionTexts.title}
+    </h2>
+    <p class="text-sm text-zinc-650 dark:text-zinc-400 max-w-lg">
+      {sectionTexts.subtitle}
+    </p>
+  </div>
+
+  <div class="flex flex-col lg:flex-row gap-12 items-start">
+    <!-- Left Column: Biography -->
+    <div class="flex-1 space-y-4">
+      <h3 class="text-lg font-semibold text-zinc-800 dark:text-zinc-200">
+        {sectionTexts.headingText}
+      </h3>
+      {aboutText.split('\n\n').map((paragraph) => (
+        <p class="text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed max-w-xl">
+          {paragraph}
+        </p>
+      ))}
+    </div>
+
+    <!-- Right Column: Interactive TypeScript Class Block (Premium IDE Mockup) -->
+    <div class="w-full lg:max-w-md flex-shrink-0">
+      <div class="rounded-xl border border-zinc-200 dark:border-zinc-850 bg-white dark:bg-zinc-900/30 p-4 shadow-xl backdrop-blur-sm">
+        
+        <!-- IDE Header Tabs -->
+        <div class="flex items-center justify-between border-b border-zinc-200 dark:border-zinc-850 pb-3 mb-4">
+          <div class="flex items-center gap-1.5">
+            <span class="h-2 w-2 rounded-full bg-brand-emerald"></span>
+            <span class="font-mono text-xs text-zinc-700 dark:text-zinc-300">santiago.ts</span>
+          </div>
+          <span class="font-mono text-[10px] text-zinc-400 dark:text-zinc-500">// TypeScript</span>
+        </div>
+
+        <!-- IDE Content (Code Snippet) -->
+        <pre class="font-mono text-xs text-zinc-650 dark:text-zinc-400 overflow-x-auto leading-relaxed select-none">
+<span class="text-zinc-400 dark:text-zinc-500">1</span> <span class="text-emerald-600 dark:text-emerald-400">interface</span> <span class="text-cyan-600 dark:text-cyan-400">Developer</span> &#123;
+<span class="text-zinc-400 dark:text-zinc-500">2</span>   name: <span class="text-emerald-600 dark:text-emerald-400">string</span>;
+<span class="text-zinc-400 dark:text-zinc-500">3</span>   languages: <span class="text-emerald-600 dark:text-emerald-400">string</span>[];
+<span class="text-zinc-400 dark:text-zinc-500">4</span>   skills: <span class="text-emerald-600 dark:text-emerald-400">string</span>[];
+<span class="text-zinc-400 dark:text-zinc-500">5</span>   methodology: <span class="text-emerald-600 dark:text-emerald-400">string</span>[];
+<span class="text-zinc-400 dark:text-zinc-500">6</span> &#125;
+<span class="text-zinc-400 dark:text-zinc-500">7</span> 
+<span class="text-zinc-400 dark:text-zinc-500">8</span> <span class="text-emerald-600 dark:text-emerald-400">const</span> santiago: <span class="text-cyan-600 dark:text-cyan-400">Developer</span> = &#123;
+<span class="text-zinc-400 dark:text-zinc-500">9</span>   name: <span class="text-amber-600 dark:text-amber-300">"Santiago R. Bruno"</span>,
+<span class="text-zinc-450 dark:text-zinc-550">10</span>   languages: [<span class="text-amber-600 dark:text-amber-300">"Python"</span>, <span class="text-amber-600 dark:text-amber-300">"C#"</span>, <span class="text-amber-600 dark:text-amber-300">"TypeScript"</span>],
+<span class="text-zinc-450 dark:text-zinc-550">11</span>   skills: [<span class="text-amber-600 dark:text-amber-300">"Web Dev"</span>, <span class="text-amber-600 dark:text-amber-300">"Automation"</span>, <span class="text-amber-600 dark:text-amber-300">"Data Pipelines"</span>],
+<span class="text-zinc-450 dark:text-zinc-550">12</span>   methodology: [
+<span class="text-zinc-450 dark:text-zinc-550">13</span>     <span class="text-amber-600 dark:text-amber-300">"Strict Typing"</span>,
+<span class="text-zinc-450 dark:text-zinc-550">14</span>     <span class="text-amber-600 dark:text-amber-300">"Clean Code"</span>,
+<span class="text-zinc-450 dark:text-zinc-550">15</span>     <span class="text-amber-600 dark:text-amber-300">"Observability & Security"</span>
+<span class="text-zinc-450 dark:text-zinc-550">16</span>   ]
+<span class="text-zinc-450 dark:text-zinc-550">17</span> &#125;;
+<span class="text-zinc-450 dark:text-zinc-550">18</span> 
+<span class="text-zinc-450 dark:text-zinc-550">19</span> <span class="text-emerald-600 dark:text-emerald-400">export default</span> santiago;</pre>
+      </div>
+    </div>
+  </div>
+</section>

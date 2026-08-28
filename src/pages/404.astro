@@ -1,0 +1,47 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="Error 404 — Page Not Found"
+  description="La página que estás buscando no existe o ha sido movida."
+  lang="es"
+>
+  <div class="flex flex-col items-center justify-center py-20 text-center space-y-6">
+    <!-- Pulsing Light -->
+    <div class="h-16 w-16 rounded-full bg-red-500/10 border border-red-500/30 flex items-center justify-center text-red-500 font-mono text-xl font-bold animate-pulse">
+      !
+    </div>
+
+    <!-- IDE Console Output Styling -->
+    <div class="max-w-md w-full rounded-xl border border-zinc-900 bg-zinc-950 p-6 text-left space-y-4">
+      <div class="flex items-center gap-1.5 border-b border-zinc-900 pb-3 mb-2">
+        <span class="h-2 w-2 rounded-full bg-red-500"></span>
+        <span class="font-mono text-xs text-zinc-500">terminal_error.log</span>
+      </div>
+      
+      <div class="font-mono text-xs text-zinc-400 space-y-2">
+        <p class="text-red-400 font-semibold">[CRITICAL_ERROR] RouteNotFoundException: The requested URL was not found on this server.</p>
+        <p class="text-zinc-500">  at System.Web.Routing.RouteCollection.GetRouteData()</p>
+        <p class="text-zinc-500">  at Astro.Middleware.Pipeline.ProcessRoute()</p>
+        <p class="text-zinc-500">  at PortfolioSRB.Core.App.Run() in C:\src\app.cs:line 404</p>
+        <p class="text-brand-cyan mt-4">// Recommendation: Return to safe environment</p>
+      </div>
+    </div>
+
+    <div class="flex flex-wrap justify-center gap-4">
+      <a
+        href="/es/"
+        class="inline-flex items-center justify-center px-5 py-2.5 rounded-lg bg-zinc-100 text-zinc-950 font-semibold text-sm hover:bg-zinc-200 transition-all"
+      >
+        Ir a Inicio (ES)
+      </a>
+      <a
+        href="/en/"
+        class="inline-flex items-center justify-center px-5 py-2.5 rounded-lg border border-zinc-800 bg-zinc-900/30 text-zinc-300 font-semibold text-sm hover:border-zinc-700 hover:text-zinc-100 transition-all"
+      >
+        Go Home (EN)
+      </a>
+    </div>
+  </div>
+</BaseLayout>

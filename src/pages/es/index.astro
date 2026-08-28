@@ -1,0 +1,43 @@
+---
+import { getCollection, getEntry } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Hero from '../../components/Hero.astro';
+import ProjectsSection from '../../components/ProjectsSection.astro';
+import StackSection from '../../components/StackSection.astro';
+import AboutSection from '../../components/AboutSection.astro';
+
+// Obtener datos del singleton de inicio en Español
+const homeEntry = await getEntry('home', 'es');
+if (!homeEntry) {
+  throw new Error('No se encontraron los datos de inicio (home) en Español.');
+}
+
+// Obtener y filtrar proyectos en Español
+const allProjects = await getCollection('projects');
+const esProjects = allProjects
+  .filter((project) => project.id.startsWith('es/'))
+  .sort((a, b) => b.data.year - a.data.year);
+---
+
+<BaseLayout
+  title={`${homeEntry.data.heroTitle} — Web & Software Developer`}
+  description={homeEntry.data.heroSubtitle}
+  lang="es"
+>
+  <!-- Hero Section -->
+  <Hero
+    title={homeEntry.data.heroTitle}
+    subtitle={homeEntry.data.heroSubtitle}
+    badgeText={homeEntry.data.availabilityBadge}
+    lang="es"
+  />
+
+  <!-- Proyectos Destacados -->
+  <ProjectsSection projects={esProjects} lang="es" />
+
+  <!-- Stack & Metodología -->
+  <StackSection lang="es" />
+
+  <!-- Sobre mí -->
+  <AboutSection aboutText={homeEntry.data.aboutText} lang="es" />
+</BaseLayout>

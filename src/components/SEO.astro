@@ -1,0 +1,76 @@
+---
+interface Props {
+  title?: string;
+  description?: string;
+  ogImage?: string;
+  lang: 'es' | 'en';
+  type?: 'website' | 'article';
+}
+
+const {
+  title,
+  description,
+  ogImage = '/assets/santiago.jpg',
+  lang,
+  type = 'website',
+} = Astro.props;
+
+const siteUrl = Astro.site ? Astro.site.toString() : 'https://santiagobrunosrb.github.io';
+const canonicalURL = new URL(Astro.url.pathname, siteUrl).toString();
+const absoluteOgImage = new URL(ogImage, siteUrl).toString();
+
+// JSON-LD estructurado
+const personJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Santiago Rafael Bruno",
+  "jobTitle": "Web & Software Developer",
+  "url": siteUrl,
+  "sameAs": [
+    "https://www.linkedin.com/in/santiagorafaelbruno/",
+    "https://github.com/SantiagoBrunoSRB/"
+  ],
+  "knowsAbout": [
+    "Software Development",
+    "Web Development",
+    "Python",
+    "C#",
+    "Astro",
+    "Tailwind CSS",
+    "Data Pipelines",
+    "n8n",
+    "Airbyte",
+    "BigQuery"
+  ]
+};
+
+const jsonLdString = JSON.stringify(personJsonLd);
+---
+
+<meta charset="utf-8" />
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+<link rel="icon" href="/favicon.ico" />
+<meta name="viewport" content="width=device-width" />
+<meta name="generator" content={Astro.generator} />
+
+<!-- SEO Básico -->
+<title>{title}</title>
+<meta name="description" content={description} />
+<link rel="canonical" href={canonicalURL} />
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content={type} />
+<meta property="og:url" content={canonicalURL} />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:image" content={absoluteOgImage} />
+
+<!-- Twitter -->
+<meta property="twitter:card" content="summary_large_image" />
+<meta property="twitter:url" content={canonicalURL} />
+<meta property="twitter:title" content={title} />
+<meta property="twitter:description" content={description} />
+<meta property="twitter:image" content={absoluteOgImage} />
+
+<!-- Datos estructurados JSON-LD -->
+<script type="application/ld+json" set:html={jsonLdString} />
