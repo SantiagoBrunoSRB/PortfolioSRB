@@ -1,13 +1,13 @@
 import { config, fields, collection, singleton } from '@keystatic/core';
 
 export default config({
-  storage: process.env.NODE_ENV === 'production' ? {
+  storage: import.meta.env.PROD ? {
     kind: 'cloud',
   } : {
     kind: 'local',
   },
   cloud: {
-    project: process.env.PUBLIC_KEYSTATIC_PROJECT || 'portfolio-srb/portfoliosrb',
+    project: import.meta.env.PUBLIC_KEYSTATIC_PROJECT || 'portfolio-srb/portfoliosrb',
   },
   collections: {
     projects_es: collection({
@@ -71,6 +71,7 @@ export default config({
     home_es: singleton({
       label: 'Inicio (ES)',
       path: 'src/content/home/es',
+      format: { data: 'json' },
       schema: {
         heroTitle: fields.text({ label: 'Título Hero' }),
         heroSubtitle: fields.text({ label: 'Subtítulo Hero (Propuesta de valor)', multiline: true }),
@@ -81,6 +82,7 @@ export default config({
     home_en: singleton({
       label: 'Home (EN)',
       path: 'src/content/home/en',
+      format: { data: 'json' },
       schema: {
         heroTitle: fields.text({ label: 'Hero Title' }),
         heroSubtitle: fields.text({ label: 'Hero Subtitle (Value proposition)', multiline: true }),
@@ -91,6 +93,7 @@ export default config({
     settings: singleton({
       label: 'Configuración General',
       path: 'src/content/settings/global',
+      format: { data: 'json' },
       schema: {
         contactEmail: fields.text({ label: 'Email de Contacto' }),
         socialLinks: fields.object({
