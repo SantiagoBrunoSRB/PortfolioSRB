@@ -7,7 +7,7 @@ export default config({
     kind: 'local',
   },
   cloud: {
-    project: process.env.PUBLIC_KEYSTATIC_PROJECT || 'santiagobrunosrb/portfoliosrb',
+    project: process.env.PUBLIC_KEYSTATIC_PROJECT || 'portfolio-srb/portfoliosrb',
   },
   collections: {
     projects_es: collection({
