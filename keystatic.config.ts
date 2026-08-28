@@ -19,9 +19,9 @@ export default config({
       schema: {
         title: fields.slug({ name: { label: 'Título' } }),
         client: fields.text({ label: 'Cliente / Contexto' }),
-        role: fields.text({ label: 'Rol técnico' }),
-        year: fields.number({ label: 'Año' }),
-        summary: fields.text({ label: 'Resumen corto (para grids)', multiline: true }),
+        role: fields.text({ label: 'Rol técnico', validation: { length: { min: 1 } } }),
+        year: fields.number({ label: 'Año', validation: { min: 1900 } }),
+        summary: fields.text({ label: 'Resumen corto (para grids)', multiline: true, validation: { length: { min: 1 } } }),
         stack: fields.array(fields.text({ label: 'Tecnología' }), {
           label: 'Stack de tecnologías (tags)',
           itemLabel: (item) => item,
@@ -47,9 +47,9 @@ export default config({
       schema: {
         title: fields.slug({ name: { label: 'Title' } }),
         client: fields.text({ label: 'Client / Context' }),
-        role: fields.text({ label: 'Technical Role' }),
-        year: fields.number({ label: 'Year' }),
-        summary: fields.text({ label: 'Short summary (for grids)', multiline: true }),
+        role: fields.text({ label: 'Technical Role', validation: { length: { min: 1 } } }),
+        year: fields.number({ label: 'Year', validation: { min: 1900 } }),
+        summary: fields.text({ label: 'Short summary (for grids)', multiline: true, validation: { length: { min: 1 } } }),
         stack: fields.array(fields.text({ label: 'Technology' }), {
           label: 'Tech Stack (tags)',
           itemLabel: (item) => item,
