@@ -1,13 +1,13 @@
 import { config, fields, collection, singleton } from '@keystatic/core';
 
 export default config({
-  storage: import.meta.env.PROD ? {
+  storage: (import.meta.env?.PROD || process.env.NODE_ENV === 'production') ? {
     kind: 'cloud',
   } : {
     kind: 'local',
   },
   cloud: {
-    project: import.meta.env.PUBLIC_KEYSTATIC_PROJECT || 'portfolio-srb/portfoliosrb',
+    project: (import.meta.env?.PUBLIC_KEYSTATIC_PROJECT || process.env.PUBLIC_KEYSTATIC_PROJECT) || 'portfolio-srb/portfoliosrb',
   },
   collections: {
     projects_es: collection({
@@ -77,6 +77,12 @@ export default config({
         heroSubtitle: fields.text({ label: 'Subtítulo Hero (Propuesta de valor)', multiline: true }),
         aboutText: fields.text({ label: 'Sobre Mí (Párrafos)', multiline: true }),
         availabilityBadge: fields.text({ label: 'Badge de disponibilidad' }),
+        cvFile: fields.file({
+          label: 'Currículum Vitae (PDF)',
+          description: 'Sube tu CV en formato PDF para la versión en español',
+          directory: 'public/assets/cv/es',
+          publicPath: '/assets/cv/es',
+        }),
       },
     }),
     home_en: singleton({
@@ -88,6 +94,12 @@ export default config({
         heroSubtitle: fields.text({ label: 'Hero Subtitle (Value proposition)', multiline: true }),
         aboutText: fields.text({ label: 'About Me (Paragraphs)', multiline: true }),
         availabilityBadge: fields.text({ label: 'Availability Badge' }),
+        cvFile: fields.file({
+          label: 'Curriculum Vitae (PDF)',
+          description: 'Upload your CV in PDF format for the English version',
+          directory: 'public/assets/cv/en',
+          publicPath: '/assets/cv/en',
+        }),
       },
     }),
     settings: singleton({
@@ -96,6 +108,12 @@ export default config({
       format: { data: 'json' },
       schema: {
         contactEmail: fields.text({ label: 'Email de Contacto' }),
+        cvFile: fields.file({
+          label: 'Currículum Vitae Global (PDF)',
+          description: 'CV por defecto si no se carga uno específico por idioma',
+          directory: 'public/assets/cv',
+          publicPath: '/assets/cv',
+        }),
         socialLinks: fields.object({
           linkedIn: fields.text({ label: 'URL de LinkedIn' }),
           gitHub: fields.text({ label: 'URL de GitHub' }),

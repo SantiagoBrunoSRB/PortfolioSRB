@@ -25,6 +25,7 @@ const home = defineCollection({
     heroSubtitle: z.string(),
     aboutText: z.string(),
     availabilityBadge: z.string(),
+    cvFile: z.string().nullable().optional(),
   }),
 });
 
@@ -33,6 +34,7 @@ const settings = defineCollection({
   loader: glob({ pattern: '*.json', base: './src/content/settings' }),
   schema: z.object({
     contactEmail: z.string(),
+    cvFile: z.string().nullable().optional(),
     socialLinks: z.object({
       linkedIn: z.string(),
       gitHub: z.string(),

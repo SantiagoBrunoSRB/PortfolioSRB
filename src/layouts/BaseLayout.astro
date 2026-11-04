@@ -6,9 +6,10 @@ interface Props {
   title?: string;
   description?: string;
   lang: 'es' | 'en';
+  cvUrl?: string;
 }
 
-const { title, description, lang } = Astro.props;
+const { title, description, lang, cvUrl } = Astro.props;
 
 // Helper para calcular la URL del idioma alternativo
 const getAltLanguageURL = (currentLang: 'es' | 'en') => {
@@ -37,6 +38,8 @@ const navTexts = {
     copyEmail: 'Copiar email',
     copied: '¡Copiado!',
     langName: 'EN',
+    cv: 'CV',
+    downloadCv: 'Descargar CV',
   },
   en: {
     projects: 'Projects',
@@ -45,6 +48,8 @@ const navTexts = {
     copyEmail: 'Copy email',
     copied: 'Copied!',
     langName: 'ES',
+    cv: 'CV',
+    downloadCv: 'Download CV',
   },
 }[lang];
 ---
@@ -111,6 +116,24 @@ const navTexts = {
             </ul>
 
             <div class="flex items-center gap-3 border-l border-zinc-200 dark:border-zinc-800 pl-4 sm:pl-6">
+              <!-- CV Download Button (compact in header) -->
+              {cvUrl && (
+                <a
+                  href={cvUrl}
+                  download="CV-Santiago-Rafael-Bruno.pdf"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={navTexts.downloadCv}
+                  title={navTexts.downloadCv}
+                  class="flex h-9 items-center gap-1.5 px-3 rounded-lg border border-zinc-200 dark:border-zinc-800 text-zinc-600 dark:text-zinc-400 hover:border-brand-emerald/40 hover:text-brand-emerald dark:hover:text-brand-emerald hover:bg-zinc-100 dark:hover:bg-zinc-900/30 font-mono text-xs transition-all"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="h-3.5 w-3.5">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3" />
+                  </svg>
+                  <span>{navTexts.cv}</span>
+                </a>
+              )}
+
               <!-- Selector de Idioma -->
               <a 
                 href={altLangUrl}

@@ -12,6 +12,9 @@ if (!homeEntry) {
   throw new Error('No se encontraron los datos de inicio (home) en Español.');
 }
 
+const settingsEntry = await getEntry('settings', 'global');
+const cvUrl = homeEntry.data.cvFile || settingsEntry?.data.cvFile || '/assets/cv/santiago-bruno-cv.pdf';
+
 // Obtener y filtrar proyectos en Español
 const allProjects = await getCollection('projects');
 const esProjects = allProjects
@@ -23,6 +26,7 @@ const esProjects = allProjects
   title={`${homeEntry.data.heroTitle} — Web & Software Developer`}
   description={homeEntry.data.heroSubtitle}
   lang="es"
+  cvUrl={cvUrl}
 >
   <!-- Hero Section -->
   <Hero
